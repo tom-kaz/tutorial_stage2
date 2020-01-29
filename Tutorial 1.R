@@ -1,3 +1,4 @@
+#load package
 library(tidyverse)
 
 #data input
@@ -20,19 +21,28 @@ response %>%
 response %>% 
   select(GSH)
 
+#gives overview of data being read
 str(response)
-ggplot(data = response,
-       aes(x = GSH, y = sens, col = genotype)) +
-  geom_point() +
-  xlim(0, 7) +
-  ylim(0, 40) +
-  geom_smooth(method = "lm", se =FALSE, fullrange = TRUE)
 
+#creates plot using response as data
+ggplot(data = response,
+       aes(x = GSH, y = sens, col = genotype)) + #tells graph what data to put where 
+  geom_point() + #what type of graph you want to produce
+  xlim(0, 7) + #creates limited x axis
+  ylim(0, 40) + #creates limited y axis
+  geom_smooth(method = "lm", se =FALSE, fullrange = TRUE) #produces line of best fit without shading of SE 
+
+#creates linear model looking at interaction of sensitivity and GSH against genotype
 mod <- lm(data = response, sens ~ GSH * genotype)
+
+#displays linear model
 summary(mod)
 
+#does ANOVA on data from linear model 
 anova(mod)
 
+#allows yu to change linear model without deleting any code
 mod_2  <- update(mod, .~. -GSH:genotype)
 
+#sumamry of updated linear model
 summary(mod_2)

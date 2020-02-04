@@ -46,3 +46,13 @@ mod_2  <- update(mod, .~. -GSH:genotype)
 
 #sumamry of updated linear model
 summary(mod_2)
+
+res <- anova(mod_2)
+#probability is the chance of getting a number
+#There is significant effect of GSH on treatment sensitivity (F value, D.F, P value)
+#State why you did the statistics in the first place - essentially varifies to you that the relationship you think you can see is real
+
+res$Df[1]
+res$Df[3]
+
+#this is the sort of code you can include in my RMD file

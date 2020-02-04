@@ -1,0 +1,51 @@
+---
+title: "Cool Science Stuff"
+author: "Tomas Kaziukonis"
+date: "04/02/2020"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE,
+                      warning = FALSE,
+                      message = FALSE)
+```
+
+#these hash things create a title - number of hash indicates font size
+
+# import 
+
+# introduction
+
+# methods
+
+# results
+
+
+
+```{r cars, echo = FALSE, warning = FALSE, message = FALSE}
+summary(cars)
+m <- mean(cars$dist)
+
+#the things after name of code impact what is shown in the document when you run it
+#echo will not show code 
+#warning does not show error messages (?)
+#message i dont know what it does i didnt hear and im too scared to ask
+```
+
+mean *distance* of cars is calculated as **`r m`** which is massive $p =\chi{2}\frac{1}{2}$
+
+the back slash after $$ thing tell R not to take text after it as actual text
+
+single stars give italics
+doublle stars give bold
+
+## Including Plots
+
+You can also embed plots, for example:
+
+```{r pressure, echo=FALSE}
+plot(pressure)
+```
+
+

@@ -25,12 +25,26 @@ response %>%
 str(response)
 
 #creates plot using response as data
-ggplot(data = response,
-       aes(x = GSH, y = sens, col = genotype)) + #tells graph what data to put where 
-  geom_point() + #what type of graph you want to produce
-  xlim(0, 7) + #creates limited x axis
-  ylim(0, 40) + #creates limited y axis
-  geom_smooth(method = "lm", se =FALSE, fullrange = TRUE) #produces line of best fit without shading of SE 
+plot <- ggplot(data = response,
+               aes(x = GSH, y = sens, col = genotype)) +
+  geom_point() +
+  theme_classic() +
+  scale_colour_manual(values = viridis::viridis(3)) +
+  ylab('Treatment Sensitivity') +
+  theme(legend.position = c(0.25, 0.3),
+        axis.title = element_text(size = 12),
+        axis.text = element_text(size = 10),
+        legend.text = element_text(size = 10),
+        legend.title = element_text(size = 12, vjust = -2.1),
+        legend.key.size = unit(0.005, 'cm'),
+        axis.line = element_line(size = 0.7)) +
+  scale_x_continuous(limits = c(0, 7),
+                     expand = c(0, 0)) +
+  scale_y_continuous(limits = c(0, 40),
+                     expand = c(0, 0)) +
+  geom_smooth(method = "lm", se =FALSE)
+
+ggsave('GSH_treatment.tiff', plot = plot, width = 6.68, units = 'cm', height = 6.68, dpi = 300)
 
 #creates linear model looking at interaction of sensitivity and GSH against genotype
 mod <- lm(data = response, sens ~ GSH * genotype)
@@ -52,7 +66,12 @@ res <- anova(mod_2)
 #There is significant effect of GSH on treatment sensitivity (F value, D.F, P value)
 #State why you did the statistics in the first place - essentially varifies to you that the relationship you think you can see is real
 
+TukeyHSD(res)
+
+plot(mod, 1)
+
 res$Df[1]
 res$Df[3]
+
 
 #this is the sort of code you can include in my RMD file

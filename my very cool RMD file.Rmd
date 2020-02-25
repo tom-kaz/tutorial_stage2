@@ -11,41 +11,40 @@ knitr::opts_chunk$set(echo = FALSE,
                       message = FALSE)
 ```
 
-#these hash things create a title - number of hash indicates font size
-
-# import 
-
 # introduction
+
+There are many treatments currently used to treat patients with cancer. One of these is the use of cytosolic drugs. However, it is known that patients can vary significantly in their response to the drug. One theory for why this is the case is the patients genotype having an effect on the response to the drug. This will be investigated by observing the sensitivity of the drug in patient cancers whith three different genotypes - **A2**, **AA01** and **B34**.
 
 # methods
 
+Will be creating a linear model of data obtained and conducting an analysis of vaiance (ANOVA) to observe any significant differences in the sensitivity between genotypes.
+
 # results
 
+Below displays the data in a graphical format and the code used to create the linear model and perform the ANOVA test. 
 
+```{r response, echo = TRUE, warning = FALSE, message = FALSE}
+library(tidyverse)
+response <- read.table("response.txt", skip = 6, header = TRUE)
+ggplot(data = response,
+       aes(x = GSH, y = sens, col = genotype)) +
+  geom_point() +
+  xlim(0, 7) +
+  ylim(0, 40) +
+  geom_smooth(method = "lm", se =FALSE, fullrange = TRUE)
 
-```{r cars, echo = FALSE, warning = FALSE, message = FALSE}
-summary(cars)
-m <- mean(cars$dist)
-
-#the things after name of code impact what is shown in the document when you run it
-#echo will not show code 
-#warning does not show error messages (?)
-#message i dont know what it does i didnt hear and im too scared to ask
+mod <- lm(data = response, sens ~ GSH * genotype)
+anova(mod)
 ```
 
-mean *distance* of cars is calculated as **`r m`** which is massive $p =\chi{2}\frac{1}{2}$
+The p-value was calculated as $p = <0.05$, and is therefore strongly significant.
 
-the back slash after $$ thing tell R not to take text after it as actual text
+An ANOVA was done as the data contains two explanatory variables (GSH, Genotype) which are hypothesised to have an effect on one another, and one dependant variable (Sensitivity) which is being measured based on the changes in the explanatory. 
 
-single stars give italics
-doublle stars give bold
+Further tests were conducted to obsereve between which genotypes there was a significant difference
 
-## Including Plots
+I also checked homogenity of variance to see if it meets the assumption of the ANOVA. The graph seems to show no obvious relationship so can atate that there is equal variance. 
 
-You can also embed plots, for example:
-
-```{r pressure, echo=FALSE}
-plot(pressure)
+```{r mod, echo = TRUE}
+plot(mod, 1)
 ```
-
-
